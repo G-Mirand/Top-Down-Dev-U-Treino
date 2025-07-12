@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Inimigo : MonoBehaviour
 {
@@ -29,6 +30,15 @@ public class Inimigo : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        playerMovement player = collider.GetComponent<playerMovement>();
+        if (collider.CompareTag("Player"))
+        {
+            Debug.Log("Player Hit");
+            SceneManager.LoadScene("Top Down Scene");
+        }
     }
 }

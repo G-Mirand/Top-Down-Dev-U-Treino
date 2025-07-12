@@ -10,6 +10,7 @@ public class MenuPrincipalManager : MonoBehaviour
     private void Start()
     {
         painelMenuInicial.SetActive(true);
+        SoundManager.PlaySound(SoundType.MUSICA);
     }
     public void Play()
     {

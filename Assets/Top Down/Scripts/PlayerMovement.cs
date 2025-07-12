@@ -13,14 +13,16 @@ public class playerMovement : MonoBehaviour
 
     private Animator _animator; 
     private Rigidbody2D _rb;
+    private Collider2D _collider;
 
 
     [Header("Dash Settings")]
     [SerializeField] float dashSpeed = 14f; //A velocidade do jogador durante o dash
     [SerializeField] float dashDuration = .5f; // quanto tempo o jogador esta em dash
     [SerializeField] float dashCooldown = 1.5f; // quanto tempo em segundos ate o jogador poder dar outro dash
-    public bool isDashing = false, canDash = true, Correndo = false;
-
+    public bool isDashing = false, canDash = true, Correndo = false, playingFootsteps = false;
+    [SerializeField] public float footstepSpeed = 0.2f;
+    [SerializeField] private bool _active = true;
 
     private const string _horizontal = "Horizontal";
     private const string _vertical = "Vertical";
@@ -33,10 +35,13 @@ public class playerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
     }
 
     private void Update()
     {
+        if (!_active) return;
+
         Vector2 currentMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
 
         if (!isDashing) //Enquanto em dash nada mais acontece
@@ -51,16 +56,24 @@ public class playerMovement : MonoBehaviour
 
             if (_movement != Vector2.zero)
             {
+                if (!playingFootsteps) StartFootsteps(); //Se o som não estiver sendo tocado e o jogador estiver se movendo ele toca o som
+
                 _animator.SetFloat(_Ultimovertical, _movement.y);
                 _animator.SetFloat(_Ultimohorizontal, _movement.x);
                 //detecta a ultima posição que o jogador estava se movendo, assim fazendo que ele fique parado nessa posição em idle
             }
+            else StopFootsteps();
 
-           if (Input.GetKeyUp(KeyCode.Mouse1) && canDash)
+            if (Input.GetKeyUp(KeyCode.Mouse1) && canDash)
             {
                 StartCoroutine(Dash(currentMousePosition));
 
             }
+        }
+        else
+        {
+            StopFootsteps();
+            SoundManager.PlaySound(SoundType.DASH);
         }
     }
 
@@ -82,5 +95,27 @@ public class playerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashCooldown);
         canDash = true; //Pode dar dash novamente
     }
+    void StartFootsteps()
+    {
+        playingFootsteps = true;
+        InvokeRepeating(nameof(PlayFootstep),0f, footstepSpeed);
+    }
 
+    void StopFootsteps()
+    {
+        playingFootsteps = false;
+        CancelInvoke(nameof(PlayFootstep));
+    }
+
+    void PlayFootstep()
+    {
+        SoundManager.PlaySound(SoundType.PASSOS);
+    }
+
+    public void die() 
+    {
+        _active = false;
+        _collider.enabled = false;
+
+    }
 }
