@@ -5,10 +5,18 @@ public class ArmasSelection : MonoBehaviour
     public GameObject Lanca;
     public GameObject Escudo;
     public GameObject Arco;
-    private int armaSelecionada = 0; // Variável para armazenar a arma selecionada
+    private int armaSelecionada = 3; // Variável para armazenar a arma selecionada
+
+    void Start()
+    {
+        armaSelecionada = 2; // Define a arma inicial como Lança
+        QualArma(armaSelecionada); // Ativa a arma inicial
+    }
+
 
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             armaSelecionada = 0;
@@ -26,6 +34,7 @@ public class ArmasSelection : MonoBehaviour
             armaSelecionada = 2;
             QualArma(armaSelecionada);
         }
+        */
 
     }
     private void QualArma(int arma) {

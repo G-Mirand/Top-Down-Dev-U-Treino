@@ -104,6 +104,7 @@ MonoBehaviour:
   bulletTransform: {fileID: 8950643229952917588}
   canFire: 1
   timeBetweenFiring: 2
+  Miku: {fileID: 8300000, guid: 3d04033eac96d9641876fb1b8d29964a, type: 3}
 --- !u!1 &2867560339086138490
 GameObject:
   m_ObjectHideFlags: 0

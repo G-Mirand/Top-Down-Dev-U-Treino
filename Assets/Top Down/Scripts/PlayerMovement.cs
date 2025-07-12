@@ -25,10 +25,9 @@ public class playerMovement : MonoBehaviour
     private const string _horizontal = "Horizontal";
     private const string _vertical = "Vertical";
     private const string _Ultimohorizontal = "UltimoHorizontal";
-    private const string _Ultimovertical = "UltimoVertical"; 
+    private const string _Ultimovertical = "UltimoVertical";
     //Essas ultimas 4 linhas são usadas para animação, essas springs entre aspas são a maneira que elas são escritas no ANIMATOR
     //Elas são usadas para o ANIMATOR para saber em que momento usar as animações de andar ou ficar parado
-
 
     private void Awake()
     {
